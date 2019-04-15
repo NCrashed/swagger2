@@ -83,6 +83,7 @@ spec = do
     context "Players (inlining schema)" $ checkToSchema (Proxy :: Proxy Players) playersSchemaJSON
     context "MyRoseTree (datatypeNameModifier)" $ checkToSchema (Proxy :: Proxy MyRoseTree) myRoseTreeSchemaJSON
     context "MyRoseTree' (datatypeNameModifier)" $ checkToSchema (Proxy :: Proxy MyRoseTree') myRoseTreeSchemaJSON'
+    context "ComplexId" $ checkToSchema (Proxy :: Proxy ComplexId) complexIdSchemaJSON
     context "Sum types" $ do
       context "Status (sum of unary constructors)" $ checkToSchema (Proxy :: Proxy Status) statusSchemaJSON
       context "Character (ref and record sum)" $ checkToSchema (Proxy :: Proxy Character) characterSchemaJSON
@@ -99,6 +100,7 @@ spec = do
     context "Character" $ checkDefs (Proxy :: Proxy Character) ["Player", "Point"]
     context "MyRoseTree" $ checkDefs (Proxy :: Proxy MyRoseTree) ["RoseTree"]
     context "MyRoseTree'" $ checkDefs (Proxy :: Proxy MyRoseTree') ["myrosetree'"]
+    context "ComplexId" $ checkDefs (Proxy :: Proxy ComplexId) ["ComplexId'"]
     context "[Set (Unit, Maybe Color)]" $ checkDefs (Proxy :: Proxy [Set (Unit, Maybe Color)]) ["Unit", "Color"]
     context "ResourceId" $ checkDefs (Proxy :: Proxy ResourceId) []
   describe "Inlining Schemas" $ do
@@ -108,6 +110,7 @@ spec = do
     context "Light" $ checkInlinedSchema (Proxy :: Proxy Light) lightInlinedSchemaJSON
     context "MyRoseTree (inlineNonRecursiveSchemas)" $ checkInlinedRecSchema (Proxy :: Proxy MyRoseTree) myRoseTreeSchemaJSON
     context "MyRoseTree' (inlineNonRecursiveSchemas)" $ checkInlinedRecSchema (Proxy :: Proxy MyRoseTree') myRoseTreeSchemaJSON'
+    context "ComplexId (inlineNonRecursiveSchemas)" $ checkInlinedRecSchema (Proxy :: Proxy ComplexId) complexIdSchemaJSON
   describe "Bounded Enum key mapping" $ do
     context "ButtonImages" $ checkToSchema (Proxy :: Proxy ButtonImages) buttonImagesSchemaJSON
 

@@ -521,6 +521,48 @@ myRoseTreeSchemaJSON' = [aesonQQ|
 |]
 
 -- ========================================================================
+-- ComplexId (sum type with recursive clause)
+-- ========================================================================
+
+data ComplexId =
+    ComplexThis { complexThis :: !Int }
+  | ComplexThat { complexThat :: !ComplexId }
+  deriving (Generic)
+
+instance ToSchema ComplexId where
+  declareNamedSchema = genericDeclareNamedSchema defaultSchemaOptions
+
+complexIdSchemaJSON :: Value
+complexIdSchemaJSON = [aesonQQ|
+{
+  "type": "object",
+  "properties":
+    {
+      "ComplexThis":
+        {
+          "type": "object",
+          "properties":
+            {
+              "complexThis": { "type": "int" }
+            },
+          "required": ["complexThis"]
+        },
+      "ComplexThat":
+        {
+          "type": "object",
+          "properties":
+            {
+              "ComplexThat": { "$ref": "#/definitions/Player" }
+            },
+          "required": ["ComplexThat"]
+        }
+    },
+  "maxProperties": 1,
+  "minProperties": 1
+}
+|]
+
+-- ========================================================================
 -- Inlined (newtype for inlining schemas)
 -- ========================================================================
 
